@@ -1,0 +1,12 @@
+#cloud-config
+network:
+  version: 2
+  ethernets:
+    ens192:
+      dhcp4: false
+      addresses:
+        - ${ip}/${netmask}
+      gateway4: ${gw}
+      nameservers:
+        addresses: ${dns}
+        search: ${domain}

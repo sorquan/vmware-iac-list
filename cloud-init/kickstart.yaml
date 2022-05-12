@@ -1,0 +1,25 @@
+#cloud-config
+users:
+  - default
+system_info: 
+  default_user:
+    name: ${user}
+    lock_passwd: false
+    plain_text_passwd: ${password}
+    groups: sudo, users, admin
+    shell: /bin/bash
+    sudo: ["ALL=(ALL) NOPASSWD:ALL"]
+disable_root: false
+ssh_pwauth: yes
+random_seed: # Add uniqueness to created instances
+    file: /dev/urandom
+    command: ["pollinate", "-r", "-s", "https://entropy.ubuntu.com"] 
+    command_required: true
+package_upgrade: true # Upgrade system
+packages: # pip required for run vmware datasource for cloud-init install script
+  - python3-pip
+runcmd: # Install cloud-Init datasource for VMware guestInfo
+   - curl -sSL https://raw.githubusercontent.com/vmware/cloud-init-vmware-guestinfo/master/install.sh | sh - 
+power_state: # Reboot after all preparation
+  timeout: 10
+  mode: reboot

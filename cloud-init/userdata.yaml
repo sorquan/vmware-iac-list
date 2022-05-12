@@ -1,0 +1,11 @@
+#cloud-config 
+hostname: ${hostname}
+fqdn: ${hostname}.${domain}
+prefer_fqdn_over_hostname: true
+packages:
+  - vim
+  - tar
+  - zip
+  - gzip
+  - curl
+  - wget
