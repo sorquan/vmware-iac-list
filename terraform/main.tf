@@ -1,7 +1,3 @@
-provider "vsphere" {
-  allow_unverified_ssl = true
-}
-
 resource "vsphere_virtual_machine" "vms" {
   for_each = var.vms
 
