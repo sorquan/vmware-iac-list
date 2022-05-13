@@ -28,7 +28,7 @@ stages:
 
 cache:
   paths:
-    - ${CI_PROJECT_DIR}/terraform/.terraform
+    - ${TF_ROOT}.terraform
 
 terraform-fmt:
   stage: static
