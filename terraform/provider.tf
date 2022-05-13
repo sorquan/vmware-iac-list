@@ -2,6 +2,7 @@ terraform {
   backend "http" {} # The configuration is described by environment variables in .gitlab-ci.yml
   required_providers {
     vsphere = {
+      source  = "hashicorp/vsphere"
       version = "2.1.1"
     }
     template = {
