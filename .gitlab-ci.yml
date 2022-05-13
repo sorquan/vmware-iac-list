@@ -17,7 +17,7 @@ before_script:
   - eval $(ssh-agent -s)
   - echo $SSH_PRIVATE_KEY_64 | base64 -d | ssh-add -
   - cd ${TF_ROOT}
-  - terraform init -input=false -reconfigure
+#  - terraform init -input=false -reconfigure
 
 stages:
   - static
