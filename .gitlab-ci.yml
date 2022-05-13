@@ -1,5 +1,5 @@
 image:
-  name: hashicorp/terraform
+  name: ${CI_DEPENDENCY_PROXY_GROUP_IMAGE_PREFIX}/hashicorp/terraform
   entrypoint: [""]
 
 variables:
