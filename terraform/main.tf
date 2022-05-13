@@ -15,6 +15,7 @@ resource "vsphere_virtual_machine" "vms" {
   guest_id  = data.vsphere_virtual_machine.template[each.key].guest_id
   scsi_type = data.vsphere_virtual_machine.template[each.key].scsi_type
 
+  # Required for cloud-init
   cdrom {
     client_device = true
   }
@@ -36,6 +37,7 @@ resource "vsphere_virtual_machine" "vms" {
     template_uuid = data.vsphere_virtual_machine.template[each.key].id
   }
 
+  # VMware cloud-init datasource config
   extra_config = {
     "guestinfo.metadata"          = base64encode(data.template_file.metadataconfig[each.key].rendered)
     "guestinfo.metadata.encoding" = "base64"
@@ -43,6 +45,7 @@ resource "vsphere_virtual_machine" "vms" {
     "guestinfo.userdata.encoding" = "base64"
   }
 
+  # Waiting until cloud-init finish work
   provisioner "remote-exec" {
     inline = [
       "sudo cloud-init status --wait"
