@@ -9,4 +9,4 @@ network:
       gateway4: ${gw}
       nameservers:
         addresses: ${dns}
-        search: ${domain}
+        search: ${search}

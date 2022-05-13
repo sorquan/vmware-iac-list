@@ -1,11 +1,24 @@
-#cloud-config 
+#cloud-config
+users:
+  - default
+system_info:
+  default_user:
+    name: ubuntu
+    lock_passwd: false
+    plain_text_passwd: ${password}
+    ssh_authorized_keys: ${ssh_authorized_keys}
+disable_root: false
+ssh_pwauth: yes
 hostname: ${hostname}
 fqdn: ${hostname}.${domain}
-prefer_fqdn_over_hostname: true
-packages:
-  - vim
-  - tar
-  - zip
-  - gzip
-  - curl
-  - wget
+manage_etc_hosts: true
+random_seed: # Add uniqueness to created instances
+  file: /dev/urandom
+  command: ["pollinate", "-r", "-s", "https://entropy.ubuntu.com"]
+  command_required: true
+packages: [vim, tar, zip, gzip, curl, wget]
+package_upgrade: true # Upgrade system
+power_state: # Reboot if required after upgrade
+  delay: 10
+  mode: reboot
+  condition: test -f /var/run/reboot-required

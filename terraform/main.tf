@@ -3,7 +3,7 @@ provider "vsphere" {
 }
 
 resource "vsphere_virtual_machine" "vms" {
-  for_each = local.vms
+  for_each = var.vms
 
   resource_pool_id = data.vsphere_compute_cluster.this[each.key].resource_pool_id
   datastore_id     = data.vsphere_datastore.this[each.key].id
@@ -36,13 +36,6 @@ resource "vsphere_virtual_machine" "vms" {
     template_uuid = data.vsphere_virtual_machine.template[each.key].id
   }
 
-  vapp { # Perform initial configuration and install cloud-init vmware module
-    properties = {
-      hostname  = each.value.vmname
-      user-data = base64encode(data.template_file.kickstartconfig[each.key].rendered)
-    }
-  }
-
   extra_config = {
     "guestinfo.metadata"          = base64encode(data.template_file.metadataconfig[each.key].rendered)
     "guestinfo.metadata.encoding" = "base64"
@@ -56,7 +49,7 @@ resource "vsphere_virtual_machine" "vms" {
     ]
     connection {
       host     = each.value.ip
-      user     = each.value.user
+      user     = "ubuntu"
       password = each.value.password
       type     = "ssh"
       timeout  = "10m"
