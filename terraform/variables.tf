@@ -15,7 +15,6 @@ variable "vms" {
     gw                 = string
     dns                = string
     search             = string
-    password           = string
     ssh_authorized_key = string
   }))
 }

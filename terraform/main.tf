@@ -51,11 +51,11 @@ resource "vsphere_virtual_machine" "vms" {
       "sudo cloud-init status --wait"
     ]
     connection {
-      host     = each.value.ip
-      user     = "ubuntu"
-      password = each.value.password
-      type     = "ssh"
-      timeout  = "10m"
+      host    = each.value.ip
+      user    = "ubuntu"
+      type    = "ssh"
+      agent   = true
+      timeout = "10m"
     }
   }
 }

@@ -5,8 +5,10 @@ system_info:
   default_user:
     name: ubuntu
     lock_passwd: false
-    plain_text_passwd: ${password}
     ssh_authorized_keys: ${ssh_authorized_key}
+password: RANDOM
+chpasswd:
+  expire: false
 disable_root: false
 ssh_pwauth: yes
 hostname: ${hostname}

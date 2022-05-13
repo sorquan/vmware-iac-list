@@ -18,7 +18,6 @@ data "template_file" "userdataconfig" {
   vars = {
     hostname           = "${each.value.hostname}"
     domain             = "${each.value.domain}"
-    password           = "${each.value.password}"
     ssh_authorized_key = "${each.value.ssh_authorized_key}"
   }
 }
