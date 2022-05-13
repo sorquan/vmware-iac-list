@@ -6,7 +6,7 @@ system_info:
     name: ubuntu
     lock_passwd: false
     plain_text_passwd: ${password}
-    ssh_authorized_keys: ${ssh_authorized_keys}
+    ssh_authorized_keys: ${ssh_authorized_key}
 disable_root: false
 ssh_pwauth: yes
 hostname: ${hostname}

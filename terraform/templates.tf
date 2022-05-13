@@ -16,10 +16,10 @@ data "template_file" "userdataconfig" {
 
   template = file("${path.module}/cloud-init/userdata.yaml")
   vars = {
-    hostname            = "${each.value.hostname}"
-    domain              = "${each.value.domain}"
-    password            = "${each.value.password}"
-    ssh_authorized_keys = "${each.value.ssh_authorized_keys}"
+    hostname           = "${each.value.hostname}"
+    domain             = "${each.value.domain}"
+    password           = "${each.value.password}"
+    ssh_authorized_key = "${each.value.ssh_authorized_key}"
   }
 }
 

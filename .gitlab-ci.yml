@@ -1,0 +1,67 @@
+image: 
+    name: hashicorp/terraform
+    entrypoint: [""]
+
+variables:
+  TF_ROOT: ${CI_PROJECT_DIR}/terraform
+  TF_HTTP_ADDRESS: ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/${CI_PROJECT_NAME}
+  TF_HTTP_USERNAME: $CI_REGISTRY_USER
+  TF_HTTP_PASSWORD: $CI_JOB_TOKEN
+  TF_HTTP_LOCK_ADDRESS: ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/${CI_PROJECT_NAME}/lock
+  TF_HTTP_LOCK_METHOD: POST
+  TF_HTTP_UNLOCK_ADDRESS: ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/${CI_PROJECT_NAME}/lock
+  TF_HTTP_UNLOCK_METHOD: DELETE
+  TF_IN_AUTOMATION: "true"
+
+before_script:
+  - cd ${TF_ROOT}
+  - terraform init -input=false -reconfigure
+
+stages:
+  - static
+  - test
+  - build
+  - deploy
+  - destroy
+ 
+cache:
+  paths:
+    - ${CI_PROJECT_DIR}/terraform/.terraform
+
+terraform-fmt:
+  stage: static
+  script:
+    - terraform fmt -check -diff -recursive
+
+terraform-validate:
+  needs:
+    - terraform-fmt
+  stage: test
+  script:
+    - terraform validate
+
+terraform-plan:
+  needs:
+    - terraform-validate
+  stage: build
+  script:
+    - terraform plan -input=false -out=${TF_ROOT}/plan.cache
+  artifacts:
+    paths:
+      - ${TF_ROOT}/plan.cache
+
+terraform-apply:
+  when: manual
+  needs:
+    - terraform-plan
+  stage: deploy
+  script:
+    - terraform apply -input=false ${TF_ROOT}/plan.cache
+
+terraform-destroy:
+  when: manual
+  needs:
+    - terraform-apply
+  stage: destroy
+  script:
+    - terraform destroy -auto-approve
