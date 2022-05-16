@@ -1,4 +1,4 @@
-# Template prepare for work with vmware cloud-init datasource
+# 1. Template prepare for work with vmware cloud-init datasource
 ```
 [Web Browser] Download OVA: https://cloud-images.ubuntu.com/
 [VC UI] Deploy from OVF, accept defaults (except disk provisioning, use Thin Provisioning).
@@ -16,4 +16,11 @@
 [VM Console] # shutdown -h now
 [VC UI] Edit Settings / VM Options / Boot Options / Boot Delay = 0ms.
 [VC UI] Convert to template
+```
+# 2. Set required variables:
+```
+SSH_PRIVATE_KEY_64 - base64 encoded private key for connecting to instances for check cloud-init deployment status
+VSPHERE_SERVER - vcenter server address
+VSPHERE_USER - vcenter server user
+VSPHERE_PASSWORD - vcenter server password
 ```
