@@ -37,6 +37,8 @@ terraform-validate:
   stage: test
   script:
     - terraform validate
+  tags:
+  - self-hosted
 
 terraform-plan:
   needs:
@@ -47,6 +49,8 @@ terraform-plan:
   artifacts:
     paths:
       - ${TF_ROOT}/plan.cache
+  tags:
+  - self-hosted
 
 terraform-apply:
   when: manual
@@ -55,6 +59,8 @@ terraform-apply:
   stage: deploy
   script:
     - terraform apply -input=false ${TF_ROOT}/plan.cache
+  tags:
+  - self-hosted
 
 terraform-destroy:
   when: manual
@@ -63,3 +69,6 @@ terraform-destroy:
   stage: destroy
   script:
     - terraform destroy -auto-approve
+  tags:
+  - self-hosted
+  
